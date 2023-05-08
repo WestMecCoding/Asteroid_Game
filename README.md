@@ -1,5 +1,18 @@
 # ASTEROID GAME PROJECT
 
+## step-8 branch
+
+In this step we will fire bullets when pressing the space bar.
+
+### QUESTIONS
+
+1. Why does the browser stop when i press space bar? The browser must have prevent default. Also, the space bar has to be a different event handler than the switch case for the ship handling.
+2. Why do the bullets fire so rapidly when we hold down the space bar. How do we prevent this behavior.
+
+## We need to create an object that holds the keypresses.
+
+We will extract some of the code from the index file into a main.js file that holds the event handlers.
+
 ## step-7 branch
 
 In this branch we will add rocket booster images to the back of the ship.
