@@ -2,8 +2,6 @@
 
 ## step-4 branch
 
-In this branch we will add some star bubbles to the background.
-
 We will also separate out the ship logic into a separate js file.
 
 We will need to declare the script tags as modules for the import and export statements to work.
