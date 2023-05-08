@@ -1,5 +1,11 @@
 # ASTEROID GAME PROJECT
 
+## step-9 branch
+
+In this step we will slow down the ship with a clamp down mechanism using the pythagorean theorem.
+
+We will add some random asteroids that float around the screen but don't collide with the ship yet.
+
 ## step-8 branch
 
 In this step we will fire bullets when pressing the space bar.
