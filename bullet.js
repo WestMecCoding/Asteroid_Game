@@ -23,6 +23,13 @@ class Bullet {
     this.x += this.vx;
     this.y += this.vy;
   }
+
+  collidesWith(asteroid) {
+    const distance = Math.sqrt(
+      (this.x - asteroid.x) ** 2 + (this.y - asteroid.y) ** 2
+    );
+    return distance < this.size / 2 + asteroid.size / 2;
+  }
 }
 
 export function createBullet(canvas, x, y, rotation, speed) {

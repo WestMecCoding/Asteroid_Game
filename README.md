@@ -1,5 +1,23 @@
 # ASTEROID GAME PROJECT
 
+## step-10 branch
+
+We will make the asteroid "explode" when a bullet hits it and then randomly spawn around the screen.
+
+Then we will add more asteroids later.
+
+To add asteroids of various sizes that randomly float around the screen in your Asteroids JS canvas game, you could follow these steps:
+
+1. Create an Asteroid class: Start by creating a new class for the asteroids that will be floating around the screen. This class should have properties such as size, position, velocity, and rotation, and methods for updating and drawing the asteroid.
+
+2. Spawn asteroids randomly: In your AnimationLoop function, add logic to randomly spawn new asteroids at a random position on the canvas. You could use the Math.random() method to generate random numbers for the position, size, and velocity of the asteroids. To ensure that no more than 3 or 4 asteroids are on the screen at once, you could keep track of the number of active asteroids and limit the spawn rate accordingly.
+
+3. Update asteroid positions: In your AnimationLoop function, update the positions of the asteroids based on their velocity and rotation. You could also add logic to detect collisions between the asteroids and other objects such as the ship or bullets.
+
+4. Draw asteroids on the canvas: In your AnimationLoop function, draw the asteroids on the canvas using the appropriate size, position, and rotation. You could also add visual effects such as particle trails or explosions when the asteroids are destroyed.
+
+5. Resize the canvas: Finally, add logic to your resize function to update the positions and sizes of the asteroids when the canvas is resized. This could involve recalculating the positions and sizes based on the new canvas dimensions and ensuring that the asteroids remain within the bounds of the canvas.
+
 ## step-9 branch
 
 In this step we will slow down the ship with a clamp down mechanism using the pythagorean theorem.
