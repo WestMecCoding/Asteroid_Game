@@ -6,7 +6,9 @@ export function drawTriangle(canvas, ctx, size) {
   ctx.lineTo(x - size / 2, y + size);
   ctx.lineTo(x + size / 2, y + size);
   ctx.closePath();
-  ctx.strokeStyle = "#FFFFFF"; // sets stroke color to white
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fill();
+  ctx.strokeStyle = "#FF0000"; // sets stroke color to white
 
   ctx.stroke();
 }

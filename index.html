@@ -17,12 +17,14 @@
       }
     </style>
     <script defer type="module" src="./ship.js"></script>
+    <script defer type="module" src="./stars.js"></script>
   </head>
   <body>
     <canvas id="myCanvas"></canvas>
 
     <script type="module">
       import { drawTriangle } from "./ship.js";
+      import { animateStars } from "./stars.js";
       const canvas = document.getElementById("myCanvas");
       const ctx = canvas.getContext("2d");
       let size;
@@ -31,12 +33,15 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         size = Math.min(canvas.width, canvas.height) * 0.1;
-        drawTriangle(canvas, ctx, size);
+        // drawTriangle(canvas, ctx, size);
+        animateStars(canvas, ctx, () => drawTriangle(canvas, ctx, size));
       }
 
       window.addEventListener("resize", resizeCanvas);
-      // window.addEventListener("resize", drawTriangle);
+
       resizeCanvas();
+
+      // add animate stars function call
     </script>
   </body>
 </html>

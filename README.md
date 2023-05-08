@@ -1,5 +1,22 @@
 # ASTEROID GAME PROJECT
 
+## step-5 branch
+
+In this branch we will add some glittering stars to the background.
+
+We need to add a stars.js file to add in the logic.
+
+We will fill in the color of the ship.
+
+We will use a callback function called drawShip as a parameter to pass functions into other scripts.
+
+### Objectives
+
+1. Create a function to generate a random number within a range.
+2. Create a Star class with properties like x, y, radius, and color.
+3. Initialize an array of Star objects with random properties.
+4. Create an animation loop that updates the properties of each star and redraws them on the canvas.
+
 ## step-4 branch
 
 We will also separate out the ship logic into a separate js file.
