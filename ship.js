@@ -1,19 +1,3 @@
-// ------------Refactor old code
-// export function drawTriangle(canvas, ctx, size) {
-//   const x = canvas.width / 2;
-//   const y = canvas.height / 2 - size / 2;
-//   ctx.beginPath();
-//   ctx.moveTo(x, y);
-//   ctx.lineTo(x - size / 2, y + size);
-//   ctx.lineTo(x + size / 2, y + size);
-//   ctx.closePath();
-//   ctx.fillStyle = "#FFFFFF";
-//   ctx.fill();
-//   ctx.strokeStyle = "#FF0000"; // sets stroke color to white
-
-//   ctx.stroke();
-// }
-
 class Ship {
   constructor(canvas, size) {
     this.canvas = canvas;
@@ -23,9 +7,12 @@ class Ship {
     this.rotation = 0;
     this.vx = 0;
     this.vy = 0;
+    // add an acceleration factor
+    this.accelerating = 0;
   }
 
   draw(ctx) {
+    // draw the ship
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(this.rotation);
@@ -50,6 +37,34 @@ class Ship {
     ctx.fillStyle = "#FF0000"; // Red color
     ctx.fill();
 
+    // Draw rectangles for forward or backward motion
+    if (this.vx !== 0 || this.vy !== 0) {
+      ctx.fillStyle = "#FFA500"; // Orange color
+      if (this.accelerating === 1) {
+        // Forward motion
+        ctx.fillRect(
+          -this.size / 2,
+          this.size / 2,
+          this.size / 4,
+          this.size / 2
+        );
+        ctx.fillRect(
+          this.size / 4,
+          this.size / 2,
+          this.size / 4,
+          this.size / 2
+        );
+      } else if (this.accelerating === -1) {
+        // Backward motion
+        ctx.fillRect(
+          -this.size / 8,
+          (-this.size * 3) / 4,
+          this.size / 4,
+          this.size / 2
+        );
+      }
+    }
+    // finalize
     ctx.restore();
   }
 

@@ -24,7 +24,7 @@
 
     <script type="module">
       import { createShip } from "./ship.js";
-      import { animateLoop } from "./stars.js";
+      import { animateLoop } from "./animationLoop.js";
       const canvas = document.getElementById("myCanvas");
       const ctx = canvas.getContext("2d");
       let size;
@@ -71,14 +71,24 @@
           case "ArrowUp":
             ship.vx += acceleration * Math.sin(ship.rotation);
             ship.vy -= acceleration * Math.cos(ship.rotation);
+            // add in acceleration factor
+            ship.accelerating = 1;
+            console.log("acceleration is 1");
             break;
           case "ArrowDown":
             ship.vx -= acceleration * Math.sin(ship.rotation);
             ship.vy += acceleration * Math.cos(ship.rotation);
+            // add in acceleration factor
+            ship.accelerating = -1;
+            console.log("acceleration is -1");
             break;
         }
       });
-      // add animate stars function call
+      document.addEventListener("keyup", (event) => {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+          ship.accelerating = 0;
+        }
+      });
     </script>
   </body>
 </html>

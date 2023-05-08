@@ -1,5 +1,18 @@
 # ASTEROID GAME PROJECT
 
+## step-7 branch
+
+In this branch we will add rocket booster images to the back of the ship.
+
+We will also refactor some of the animation loop logic
+
+### QUESTIONS
+
+- why do we wrap functions in curly braces and not export class constants?
+- What's the correct syntax for exporting classes? Do we need export default class or not?
+- We will add some random asteroid type objects that float around the screen WITHOUT COLLISION.
+- What does ctx.restore() do?
+
 ## step-6-c branch
 
 Add in functionality to bounce the ship back from the walls.
