@@ -120,6 +120,7 @@ animateLoop(
           asteroids.splice(asteroids.indexOf(asteroid), 1);
           bullets.splice(bullets.indexOf(bullet), 1);
           destroyed++;
+          console.log("destroyed: " + destroyed);
           if (asteroids.length < 4) {
             const newAsteroid = createAsteroid(
               canvas,
