@@ -1,10 +1,16 @@
 import { createShip } from "./ship.js";
 import { animateLoop } from "./animationLoop.js";
 import { createBullet } from "./bullet.js";
+import { createAsteroid } from "./asteroid.js";
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 let size;
 const ship = createShip(canvas, Math.min(canvas.width, canvas.height) * 0.1);
+const asteroid = createAsteroid(
+  canvas,
+  Math.min(canvas.width, canvas.height) * 0.1
+);
+
 const bullets = [];
 // add a cooldown mechanism to slow down bullets
 const bulletCooldown = 300;
@@ -31,6 +37,7 @@ function resizeCanvas() {
   // add ship x and y to resize
   ship.x = canvas.width / 2;
   ship.y = canvas.height / 2;
+  asteroid.size = size * 1.5;
   // drawTriangle(canvas, ctx, size);
 }
 
@@ -96,7 +103,8 @@ animateLoop(
     }
     ship.draw(ctx);
     ship.update();
-
+    asteroid.draw(ctx);
+    asteroid.update();
     bullets.forEach((bullet) => {
       bullet.draw(ctx);
       bullet.update();
