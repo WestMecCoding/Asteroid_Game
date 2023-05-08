@@ -23,12 +23,7 @@
     <script>
       const canvas = document.getElementById("myCanvas");
       const ctx = canvas.getContext("2d");
-
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const size = Math.min(canvas.width, canvas.height) * 0.1;
-      }
+      let size;
 
       function drawTriangle() {
         const x = canvas.width / 2;
@@ -38,10 +33,20 @@
         ctx.lineTo(x - size / 2, y + size);
         ctx.lineTo(x + size / 2, y + size);
         ctx.closePath();
+        ctx.strokeStyle = "#FFFFFF"; // sets stroke color to white
+
         ctx.stroke();
       }
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        size = Math.min(canvas.width, canvas.height) * 0.1;
+        drawTriangle();
+      }
+
       window.addEventListener("resize", resizeCanvas);
-      window.addEventListener("resize", drawTriangle);
+      // window.addEventListener("resize", drawTriangle);
       resizeCanvas();
     </script>
   </body>
