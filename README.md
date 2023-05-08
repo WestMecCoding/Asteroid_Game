@@ -1,5 +1,13 @@
 # ASTEROID GAME PROJECT
 
+## step-6-b branch
+
+The step-6 branch was broken. This will be a refactor branch.
+
+1. Update the resizeCanvas function in index.html to set the new size of the ship and reposition it in the center of the canvas.
+2. Move the animateLoop call outside of the resizeCanvas function in index.html.
+3. Call the ship.update() method inside the loop function in stars.js.
+
 ## step-6 branch
 
 In this branch we will add in an animationLoop.js file to hold our animation callbacks.
