@@ -40,12 +40,32 @@ class Ship {
 
     ctx.strokeStyle = "#FFFFFF";
     ctx.stroke();
+
+    // Draw prominent nose with a different color
+    ctx.beginPath();
+    ctx.moveTo(0, -this.size / 2); // Nose
+    ctx.lineTo(-this.size / 4, this.size / 4); // Left middle
+    ctx.lineTo(this.size / 4, this.size / 4); // Right middle
+    ctx.closePath();
+    ctx.fillStyle = "#FF0000"; // Red color
+    ctx.fill();
+
     ctx.restore();
   }
 
   update() {
     this.x += this.vx;
     this.y += this.vy;
+    ////////////////////
+    // Bounce the ship when it hits the edge of the canvas
+    if (this.x < 0 || this.x > this.canvas.width) {
+      this.vx = -this.vx * 0.9; // Reverse and reduce velocity on x-axis
+      this.x = this.x < 0 ? 0 : this.canvas.width; // Clamp position within canvas
+    }
+    if (this.y < 0 || this.y > this.canvas.height) {
+      this.vy = -this.vy * 0.9; // Reverse and reduce velocity on y-axis
+      this.y = this.y < 0 ? 0 : this.canvas.height; // Clamp position within canvas
+    }
   }
 }
 

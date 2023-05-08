@@ -1,5 +1,11 @@
 # ASTEROID GAME PROJECT
 
+## step-6-c branch
+
+Add in functionality to bounce the ship back from the walls.
+
+Add a color change to the nose of the ship.
+
 ## step-6-b branch
 
 The step-6 branch was broken. This will be a refactor branch.
