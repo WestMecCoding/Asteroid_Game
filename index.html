@@ -16,33 +16,22 @@
         background-color: black;
       }
     </style>
+    <script defer type="module" src="./ship.js"></script>
   </head>
   <body>
     <canvas id="myCanvas"></canvas>
 
-    <script>
+    <script type="module">
+      import { drawTriangle } from "./ship.js";
       const canvas = document.getElementById("myCanvas");
       const ctx = canvas.getContext("2d");
       let size;
-
-      function drawTriangle() {
-        const x = canvas.width / 2;
-        const y = canvas.height / 2 - size / 2;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x - size / 2, y + size);
-        ctx.lineTo(x + size / 2, y + size);
-        ctx.closePath();
-        ctx.strokeStyle = "#FFFFFF"; // sets stroke color to white
-
-        ctx.stroke();
-      }
 
       function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         size = Math.min(canvas.width, canvas.height) * 0.1;
-        drawTriangle();
+        drawTriangle(canvas, ctx, size);
       }
 
       window.addEventListener("resize", resizeCanvas);
