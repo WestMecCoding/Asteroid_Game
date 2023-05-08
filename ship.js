@@ -9,6 +9,7 @@ class Ship {
     this.vy = 0;
     // add an acceleration factor
     this.accelerating = 0;
+    this.speedLimit = 2;
   }
 
   draw(ctx) {
@@ -69,6 +70,11 @@ class Ship {
   }
 
   update() {
+    const currentSpeed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+
+    if (currentSpeed > this.speedLimit) {
+      const ratio = this.speedLimit / currentSpeed;
+    }
     this.x += this.vx;
     this.y += this.vy;
     ////////////////////

@@ -9,6 +9,27 @@ In this step we will fire bullets when pressing the space bar.
 1. Why does the browser stop when i press space bar? The browser must have prevent default. Also, the space bar has to be a different event handler than the switch case for the ship handling.
 2. Why do the bullets fire so rapidly when we hold down the space bar. How do we prevent this behavior.
 
+### PERFORMANCE.NOW()
+
+performance.now() is a JavaScript function that returns a high-resolution timestamp in milliseconds, measured since the time origin, which is the start of the page's lifetime. This timestamp is more accurate and precise than using Date.now(), which provides the number of milliseconds since the Unix epoch (January 1, 1970).
+
+performance.now() is particularly useful for measuring the duration of an operation or for synchronizing animations and other time-based functions. It's part of the High Resolution Time API, which is designed to provide more accurate and consistent timing information for web applications, especially when it comes to animations, audio, and other time-sensitive tasks.
+
+Here's a simple example of using performance.now() to measure the duration of a function:
+
+```js
+const start = performance.now();
+
+// Some operation or function call
+someFunction();
+
+const end = performance.now();
+const duration = end - start;
+console.log(`Function execution took ${duration} milliseconds`);
+```
+
+By using performance.now(), you can ensure that you get an accurate measurement of time elapsed, even if the system clock is adjusted or if the browser's internal clock has some inconsistencies.
+
 ## We need to create an object that holds the keypresses.
 
 We will extract some of the code from the index file into a main.js file that holds the event handlers.
