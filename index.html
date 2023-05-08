@@ -13,6 +13,7 @@
         display: block;
         width: 100%;
         height: 100%;
+        background-color: black;
       }
     </style>
   </head>
@@ -22,15 +23,6 @@
     <script>
       const canvas = document.getElementById("myCanvas");
       const ctx = canvas.getContext("2d");
-
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const size = Math.min(canvas.width, canvas.height) * 0.1;
-      }
-
-      window.addEventListener("resize", resizeCanvas);
-      resizeCanvas();
     </script>
   </body>
 </html>
