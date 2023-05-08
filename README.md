@@ -1,5 +1,20 @@
 # ASTEROID GAME PROJECT
 
+## step-6 branch
+
+In this branch we will add in an animationLoop.js file to hold our animation callbacks.
+
+We will slow down the animation of the star blinking.
+
+We will add some event handlers to make the ship float around the screen.
+
+To move the ship around the screen using the arrow keys, you can follow these steps:
+
+1. Add properties to the drawTriangle function for position, rotation, and velocity.
+2. Update the drawTriangle function to use these properties when drawing the ship.
+3. Create event handlers for the arrow keys to modify the ship's properties.
+4. Update the animation loop to move the ship based on its velocity.
+
 ## step-5 branch
 
 In this branch we will add some glittering stars to the background.
