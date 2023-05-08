@@ -1,9 +1,5 @@
 # ASTEROID GAME PROJECT
 
-## MAIN BRANCH
+## step-3 branch
 
-This is the beginning of the project. In this step we have setup some context for a canvas.
-
-We have added a resizing function that will change the size of the canvas responsively.
-
-The background color is plain black.
+In this step we will add a simple trangle to the canvas so we can see the resizing taking place.
