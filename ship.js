@@ -71,15 +71,29 @@ class Ship {
   update() {
     this.x += this.vx;
     this.y += this.vy;
-    ////////////////////
-    // Bounce the ship when it hits the edge of the canvas
-    if (this.x < 0 || this.x > this.canvas.width) {
-      this.vx = -this.vx * 0.9; // Reverse and reduce velocity on x-axis
-      this.x = this.x < 0 ? 0 : this.canvas.width; // Clamp position within canvas
+    // ////////////////////
+    // // Bounce the ship when it hits the edge of the canvas
+    // if (this.x < 0 || this.x > this.canvas.width) {
+    //   this.vx = -this.vx * 0.9; // Reverse and reduce velocity on x-axis
+    //   this.x = this.x < 0 ? 0 : this.canvas.width; // Clamp position within canvas
+    // }
+    // if (this.y < 0 || this.y > this.canvas.height) {
+    //   this.vy = -this.vy * 0.9; // Reverse and reduce velocity on y-axis
+    //   this.y = this.y < 0 ? 0 : this.canvas.height; // Clamp position within canvas
+    // }
+    /////////////////////
+    ////////wrap the ship across the edges of the screen
+    // Wrap the ship when it goes off the edge of the canvas
+    if (this.x < 0) {
+      this.x = this.canvas.width;
+    } else if (this.x > this.canvas.width) {
+      this.x = 0;
     }
-    if (this.y < 0 || this.y > this.canvas.height) {
-      this.vy = -this.vy * 0.9; // Reverse and reduce velocity on y-axis
-      this.y = this.y < 0 ? 0 : this.canvas.height; // Clamp position within canvas
+
+    if (this.y < 0) {
+      this.y = this.canvas.height;
+    } else if (this.y > this.canvas.height) {
+      this.y = 0;
     }
   }
 }

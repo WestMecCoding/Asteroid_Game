@@ -1,5 +1,13 @@
 # ASTEROID GAME PROJECT
 
+## step-11 branch
+
+We will make the ship jump position as it moves across the screen edges.
+
+We will add a hud to keep track of destroyed and damaged scores.
+
+- the hud will be created with a div.
+
 ## step-10 branch
 
 We will make the asteroid "explode" when a bullet hits it and then randomly spawn around the screen.

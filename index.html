@@ -9,11 +9,26 @@
         height: 100%;
       }
 
+      div#hud {
+        width: 100%;
+        /* height: calc(10vh - 6em); */
+        height: 10vh;
+        background-color: gray;
+        font-size: 2em;
+        color: yellow;
+        overflow: hidden;
+        padding: 0.5em;
+        box-sizing: border-box;
+        text-align: center;
+        align-items: center;
+      }
       canvas {
         display: block;
         width: 100%;
-        height: 100%;
         background-color: black;
+      }
+      #myCanvas {
+        height: 90vh;
       }
     </style>
     <script defer type="module" src="./ship.js"></script>
@@ -22,6 +37,7 @@
     <script defer type="module" src="./main.js"></script>
   </head>
   <body>
+    <div id="hud"></div>
     <canvas id="myCanvas"></canvas>
 
     <script type="module"></script>

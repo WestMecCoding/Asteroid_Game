@@ -7,6 +7,17 @@ const ctx = canvas.getContext("2d");
 let size;
 const ship = createShip(canvas, Math.min(canvas.width, canvas.height) * 0.1);
 const asteroids = [];
+
+// Initialize HUD canvas
+// const hudCanvas = document.createElement("canvas");
+// hudCanvas.width = 20;
+// hudCanvas.height = 50;
+// hudCanvas.style.position = "absolute";
+// hudCanvas.style.top = "20px";
+// hudCanvas.style.left = "20px";
+// document.body.appendChild(hudCanvas);
+// const hudCtx = hudCanvas.getContext("2d");
+
 for (let i = 0; i < 3; i++) {
   const asteroid = createAsteroid(
     canvas,
@@ -136,5 +147,8 @@ animateLoop(
       asteroid.update();
       asteroid.draw(ctx);
     });
+    document.getElementById(
+      "hud"
+    ).innerHTML = `Asteroids Destroyed: ${destroyed}`;
   }
 );
