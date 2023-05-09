@@ -1,6 +1,4 @@
-// import { createShip } from "./ship";
-
-export class Asteroid {
+class Asteroid {
   constructor(canvas, size) {
     this.canvas = canvas;
     this.size = size;

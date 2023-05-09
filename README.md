@@ -4,6 +4,10 @@
 
 We will add a speed wheel like a joystick that will take a mouse click to change the direction and velocity of the ship.
 
+### QUESTIONS
+
+We need to refactor the stars so that they reposition with the browser dynamically so we will need to create the stars in the window resize function.
+
 ## step-13 branch
 
 We need to slow the ship down.

@@ -1,16 +1,38 @@
+// IMPORTS
 import { createShip } from "./ship.js";
-import { animateLoop } from "./animationLoop.js";
 import { createBullet } from "./bullet.js";
 import { createAsteroid } from "./asteroid.js";
 import Joystick from "./joystick.js";
+import Star, { randomInRange } from "./stars.js";
 
+// Canvas and Context
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
+
+// CONSTANTS
+////bullets
+const bulletCooldown = 300; // the variable for the bullet cool down mechanism
+//// ship
+const maxAcceleration = 1;
+const rotationSpeed = 0.05;
+const acceleration = 0.05;
+//// stars
+const updateFrequency = 10; // Update stars every 10 frames
+
+// Game Objects and Variables
 let size;
+let isPaused = false;
 const ship = createShip(canvas, Math.min(canvas.width, canvas.height) * 0.1);
 const asteroids = [];
-let isPaused = false;
+const stars = [];
+const bullets = [];
+let destroyed = 0;
+let collisions = 0;
+let lastBulletTime = 0;
+// add in frame counter to change star blink speed
+let frameCounter = 0;
 
+// Create first 3 asteroids
 for (let i = 0; i < 3; i++) {
   const asteroid = createAsteroid(
     canvas,
@@ -18,26 +40,15 @@ for (let i = 0; i < 3; i++) {
   );
   asteroids.push(asteroid);
 }
+// instantiate the joystick
 const joystick = new Joystick(
   canvas.width * 0.75,
   canvas.height * 0.75,
   50,
   15
 );
-const bullets = [];
-// declare an asteroid array
-let destroyed = 0;
-let collisions = 0;
-// add a cooldown mechanism to slow down bullets
-const bulletCooldown = 300;
-let lastBulletTime = 0;
 
-// add other attributes for the ship
-const maxAcceleration = 1;
-const rotationSpeed = 0.05;
-
-const acceleration = 0.05;
-
+// KEYSTATES OBJECT
 // add a keystates object to recognize independent key presses
 const keyStates = {
   ArrowUp: false,
@@ -47,27 +58,7 @@ const keyStates = {
   " ": false,
 };
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  size = Math.min(canvas.width, canvas.height) * 0.1;
-  ship.size = size * 1;
-  // add ship x and y to resize
-  ship.x = canvas.width / 2;
-  ship.y = canvas.height / 2;
-  asteroids.forEach((asteroid) => {
-    asteroid.size = size * 1.5;
-  });
-
-  // update the joystick position
-  joystick.x = canvas.width * 0.75;
-  joystick.y = canvas.height * 0.75;
-}
-
-window.addEventListener("resize", resizeCanvas);
-
-resizeCanvas();
-
+// EVENT LISTENERS for KEY PRESSES
 document.addEventListener("keydown", (event) => {
   if (keyStates.hasOwnProperty(event.key)) {
     event.preventDefault();
@@ -81,7 +72,7 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
-// add event listeners for canvas
+// add event listeners for canvas mouse events
 canvas.addEventListener("mousedown", (event) => {
   joystick.handleMouseDown(event);
 });
@@ -131,105 +122,124 @@ function checkCollision() {
       asteroids.push(newAsteroid);
     }
   }
-  // for (const asteroid of asteroids) {
-  //   if (ship.collidesWith(asteroid)) {
-
-  //     // ship.takeDamage(asteroid.size);
-  //   }
-  // }
 }
-// document.addEventListener("keydown", function (event) {
-//   if (event.code === "space" && isPaused) {
-//     console.log("space key pressed");
-//     location.reload();
-//   }
-// });
 
-document.addEventListener("keydown", (event) => {
-  if (keyStates.hasOwnProperty(event.key)) {
-    event.preventDefault();
-    keyStates[event.key] = true;
+// RESIZE THE CANVAS DYNAMICALLY
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  size = Math.min(canvas.width, canvas.height) * 0.1;
+  ship.size = size * 1;
+  // add ship x and y to resize
+  ship.x = canvas.width / 2;
+  ship.y = canvas.height / 2;
+  asteroids.forEach((asteroid) => {
+    asteroid.size = size * 1.5;
+  });
+
+  // update the joystick position
+  joystick.x = canvas.width * 0.75;
+  joystick.y = canvas.height * 0.75;
+  stars.splice(0, stars.length);
+  for (let i = 0; i < 100; i++) {
+    stars.push(new Star(canvas));
   }
-});
-animateLoop(
-  canvas,
-  ctx,
-  // () => drawTriangle(canvas, ctx, size))
-  () => {
-    if (keyStates["ArrowUp"] && ship.accelerating < maxAcceleration) {
-      ship.vx += acceleration * Math.sin(ship.rotation);
-      ship.vy -= acceleration * Math.cos(ship.rotation);
-      // add in acceleration factor
-      // ship.accelerating = 0.05;
-      ship.accelerating = 1;
-      // console.log("acceleration is 1");
-    } else if (keyStates["ArrowDown"] && ship.accelerating > -maxAcceleration) {
-      ship.vx -= acceleration * Math.sin(ship.rotation);
-      ship.vy += acceleration * Math.cos(ship.rotation);
-      // add in acceleration factor
-      // ship.accelerating -= 0.05;
-      ship.accelerating = 1;
-      // console.log("acceleration is -1");
-    } else {
-      if (ship.accelerating !== 0) {
-        // ship.accelerating -= Math.sign(ship.accelerating) * 0.05;
-        ship.accelerating = 0;
-      }
-      // ship.accelerating = 0;
-    }
+}
 
-    if (keyStates["ArrowLeft"]) {
-      ship.rotation -= rotationSpeed;
-    } else if (keyStates["ArrowRight"]) {
-      ship.rotation += rotationSpeed;
-    }
-    // add the bullet firing mechanism
-    const currentTime = performance.now();
-    if (
-      keyStates[" "] &&
-      currentTime - lastBulletTime > bulletCooldown &&
-      !isPaused
-    ) {
-      fireBullet();
-      lastBulletTime = currentTime;
-    } else if (keyStates[" "] && isPaused) {
-      location.reload();
-    }
-    if (!isPaused) {
-      joystick.draw(ctx);
-      ship.draw(ctx);
-      ship.update();
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-      bullets.forEach((bullet) => {
-        bullet.draw(ctx);
-        bullet.update();
-        asteroids.forEach((asteroid) => {
-          if (bullet.collidesWith(asteroid)) {
-            asteroids.splice(asteroids.indexOf(asteroid), 1);
-            bullets.splice(bullets.indexOf(bullet), 1);
-            destroyed++;
-            console.log("destroyed: " + destroyed);
-            if (asteroids.length < 4) {
-              const newAsteroid = createAsteroid(
-                canvas,
-                Math.min(canvas.width, canvas.height) * 0.1
-              );
-              asteroids.push(newAsteroid);
-            }
-          }
-        });
-      });
+// Create an array of 100 Star objects with random properties
+//// This needs to come after the canvas has been resized
 
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (const star of stars) {
+    star.draw(ctx);
+
+    if (frameCounter % updateFrequency === 0) {
+      star.radius = randomInRange(1, 3); // Change star size
+      star.color = `rgba(255, 255, 255, ${randomInRange(0.1, 1)})`; // Change star color
+    }
+  }
+  frameCounter++;
+  if (keyStates["ArrowUp"] && ship.accelerating < maxAcceleration) {
+    ship.vx += acceleration * Math.sin(ship.rotation);
+    ship.vy -= acceleration * Math.cos(ship.rotation);
+    // add in acceleration factor
+    // ship.accelerating = 0.05;
+    ship.accelerating = 1;
+    // console.log("acceleration is 1");
+  } else if (keyStates["ArrowDown"] && ship.accelerating > -maxAcceleration) {
+    ship.vx -= acceleration * Math.sin(ship.rotation);
+    ship.vy += acceleration * Math.cos(ship.rotation);
+    // add in acceleration factor
+    // ship.accelerating -= 0.05;
+    ship.accelerating = 1;
+    // console.log("acceleration is -1");
+  } else {
+    if (ship.accelerating !== 0) {
+      // ship.accelerating -= Math.sign(ship.accelerating) * 0.05;
+      ship.accelerating = 0;
+    }
+    // ship.accelerating = 0;
+  }
+
+  if (keyStates["ArrowLeft"]) {
+    ship.rotation -= rotationSpeed;
+  } else if (keyStates["ArrowRight"]) {
+    ship.rotation += rotationSpeed;
+  }
+  // add the bullet firing mechanism
+  const currentTime = performance.now();
+  if (
+    keyStates[" "] &&
+    currentTime - lastBulletTime > bulletCooldown &&
+    !isPaused
+  ) {
+    fireBullet();
+    lastBulletTime = currentTime;
+  } else if (keyStates[" "] && isPaused) {
+    location.reload();
+  }
+  if (!isPaused) {
+    joystick.draw(ctx);
+    ship.draw(ctx);
+    ship.update();
+
+    bullets.forEach((bullet) => {
+      bullet.draw(ctx);
+      bullet.update();
       asteroids.forEach((asteroid) => {
-        asteroid.update();
-        asteroid.draw(ctx);
+        if (bullet.collidesWith(asteroid)) {
+          asteroids.splice(asteroids.indexOf(asteroid), 1);
+          bullets.splice(bullets.indexOf(bullet), 1);
+          destroyed++;
+          console.log("destroyed: " + destroyed);
+          if (asteroids.length < 4) {
+            const newAsteroid = createAsteroid(
+              canvas,
+              Math.min(canvas.width, canvas.height) * 0.1
+            );
+            asteroids.push(newAsteroid);
+          }
+        }
       });
-      checkCollision();
-      document.getElementById(
-        "hud"
-      ).innerHTML = `Asteroids Destroyed: ${destroyed}  Collisions: ${collisions}`;
-    } else {
-      document.getElementById("hud").innerHTML = "<div>Press Space</div>";
-    }
+    });
+
+    asteroids.forEach((asteroid) => {
+      asteroid.update();
+      asteroid.draw(ctx);
+    });
+    checkCollision();
+    document.getElementById(
+      "hud"
+    ).innerHTML = `Asteroids Destroyed: ${destroyed}  Collisions: ${collisions}`;
+  } else {
+    document.getElementById("hud").innerHTML = "<div>Press Space</div>";
   }
-);
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
