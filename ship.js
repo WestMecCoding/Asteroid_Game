@@ -11,6 +11,13 @@ class Ship {
     this.accelerating = 0;
   }
 
+  collidesWith(object) {
+    const dx = object.x - this.x;
+    const dy = object.y - this.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    return distance < object.size / 2 + this.size / 2;
+  }
+
   draw(ctx) {
     // draw the ship
     ctx.save();

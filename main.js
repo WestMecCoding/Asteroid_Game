@@ -29,6 +29,7 @@ for (let i = 0; i < 3; i++) {
 const bullets = [];
 // declare an asteroid array
 let destroyed = 0;
+let collisions = 0;
 // add a cooldown mechanism to slow down bullets
 const bulletCooldown = 300;
 let lastBulletTime = 0;
@@ -87,6 +88,35 @@ function fireBullet() {
     bulletSpeed
   );
   bullets.push(bullet);
+}
+
+/////////////add collision
+function checkCollision() {
+  const collidedAsteroid = asteroids.find((asteroid) => {
+    return ship.collidesWith(asteroid);
+  });
+  if (collidedAsteroid) {
+    console.log("collision");
+    const index = asteroids.findIndex((asteroid) => {
+      return asteroid.id === collidedAsteroid.id;
+    });
+    asteroids.splice(index, 1);
+    destroyed++;
+    collisions++;
+    if (asteroids.length < 4) {
+      const newAsteroid = createAsteroid(
+        canvas,
+        Math.min(canvas.width, canvas.height) * 0.1
+      );
+      asteroids.push(newAsteroid);
+    }
+  }
+  // for (const asteroid of asteroids) {
+  //   if (ship.collidesWith(asteroid)) {
+
+  //     // ship.takeDamage(asteroid.size);
+  //   }
+  // }
 }
 animateLoop(
   canvas,
@@ -147,8 +177,9 @@ animateLoop(
       asteroid.update();
       asteroid.draw(ctx);
     });
+    checkCollision();
     document.getElementById(
       "hud"
-    ).innerHTML = `Asteroids Destroyed: ${destroyed}`;
+    ).innerHTML = `Asteroids Destroyed: ${destroyed}  Collisions: ${collisions}`;
   }
 );

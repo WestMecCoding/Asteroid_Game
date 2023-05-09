@@ -1,5 +1,13 @@
 # ASTEROID GAME PROJECT
 
+## step-12 branch
+
+We will add collision with the asteroids and take damage.
+
+We will slow down the total acceleration of the ship.
+
+We will make the asteroids more textured by combining line drawings.
+
 ## step-11 branch
 
 We will make the ship jump position as it moves across the screen edges.
