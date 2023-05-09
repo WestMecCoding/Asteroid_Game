@@ -1,5 +1,15 @@
 # ASTEROID GAME PROJECT
 
+## step-13 branch
+
+We need to slow the ship down.
+
+We need to fix some of the array issues that's making the asteroid array destroy too many asteroids when collided.
+
+We need to change the texture of the asteroids to be more complex.
+
+we will add a game over when we hit 3 asteroids plus a command to restart the game with the space bar.
+
 ## step-12 branch
 
 We will add collision with the asteroids and take damage.
