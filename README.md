@@ -1,5 +1,9 @@
 # ASTEROID GAME PROJECT
 
+## step-14 branch
+
+We will add a speed wheel like a joystick that will take a mouse click to change the direction and velocity of the ship.
+
 ## step-13 branch
 
 We need to slow the ship down.

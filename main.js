@@ -2,6 +2,8 @@ import { createShip } from "./ship.js";
 import { animateLoop } from "./animationLoop.js";
 import { createBullet } from "./bullet.js";
 import { createAsteroid } from "./asteroid.js";
+import Joystick from "./joystick.js";
+
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 let size;
@@ -16,7 +18,12 @@ for (let i = 0; i < 3; i++) {
   );
   asteroids.push(asteroid);
 }
-
+const joystick = new Joystick(
+  canvas.width * 0.75,
+  canvas.height * 0.75,
+  50,
+  15
+);
 const bullets = [];
 // declare an asteroid array
 let destroyed = 0;
@@ -51,7 +58,10 @@ function resizeCanvas() {
   asteroids.forEach((asteroid) => {
     asteroid.size = size * 1.5;
   });
-  // drawTriangle(canvas, ctx, size);
+
+  // update the joystick position
+  joystick.x = canvas.width * 0.75;
+  joystick.y = canvas.height * 0.75;
 }
 
 window.addEventListener("resize", resizeCanvas);
@@ -69,6 +79,17 @@ document.addEventListener("keyup", (event) => {
   if (keyStates.hasOwnProperty(event.key)) {
     keyStates[event.key] = false;
   }
+});
+
+// add event listeners for canvas
+canvas.addEventListener("mousedown", (event) => {
+  joystick.handleMouseDown(event);
+});
+canvas.addEventListener("mousemove", (event) => {
+  joystick.handleMouseMove(event);
+});
+canvas.addEventListener("mouseup", () => {
+  joystick.handleMouseUp();
 });
 
 function fireBullet() {
@@ -175,6 +196,7 @@ animateLoop(
       location.reload();
     }
     if (!isPaused) {
+      joystick.draw(ctx);
       ship.draw(ctx);
       ship.update();
 

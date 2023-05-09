@@ -26,6 +26,7 @@ export function animateLoop(canvas, ctx, drawShip) {
     }
     frameCounter++;
     drawShip();
+
     requestAnimationFrame(loop);
   }
 
