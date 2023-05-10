@@ -5,26 +5,16 @@ class Joystick {
     this.outerRadius = outerRadius;
     this.innerRadius = innerRadius;
     this.isMouseDown = false;
-    this.innerCircleX = x;
-    this.innerCircleY = y;
+    this.innerCircleX = this.x;
+    this.innerCircleY = this.y;
     this.angle = 0;
     this.distance = 0;
-    this.dragging = false;
-  }
-  draw(ctx) {
-    // Draw Outer Circle
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.outerRadius, 0, 2 * Math.PI);
-    ctx.stroke();
-
-    // Draw Inner Circle
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.innerRadius, 0, 2 * Math.PI);
-    ctx.fill();
+    // this.dragging = false;
   }
   handleMouseDown(event) {
-    dx = event.clientX - this.x;
-    dy = event.clientY - this.y;
+    // if (!this.isMouseDown) return;
+    const dx = event.clientX - this.x;
+    const dy = event.clientY - this.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance < this.innerRadius) {
@@ -45,23 +35,42 @@ class Joystick {
       distance,
       this.outerRadius - this.innerRadius
     );
-    this.x += Math.cos(angle) * (clampedDistance - distance);
-    this.y += Math.sin(angle) * (clampedDistance - distance);
+    this.innerCircleX = this.x + Math.cos(angle) * clampedDistance;
+    this.innerCircleY = this.y + Math.sin(angle) * clampedDistance;
+    // this.x += Math.cos(angle) * (clampedDistance - distance);
+    // this.y += Math.sin(angle) * (clampedDistance - distance);
 
     this.angle = angle;
     this.distance = clampedDistance;
   }
 
   handleMouseUp() {
-    if (this.dragging) {
-      this.innerCircleX = this.defaultX;
-      this.innerCircleY = this.defaultY;
-      this.dragging = false;
-    }
-    // this.isMouseDown = false;
+    // if (this.dragging) {
+    this.isMouseDown = false;
+    this.innerCircleX = this.x;
+    this.innerCircleY = this.y;
+    this.distance = 0;
+    // this.dragging = false;
+    // }
     // this.x = 100;
     // this.y = 100;
-    // this.distance = 0;
+  }
+  draw(ctx) {
+    // Draw Outer Circle
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.outerRadius, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // Draw Inner Circle
+    ctx.beginPath();
+    ctx.arc(
+      this.innerCircleX,
+      this.innerCircleY,
+      this.innerRadius,
+      0,
+      2 * Math.PI
+    );
+    ctx.fill();
   }
 }
 

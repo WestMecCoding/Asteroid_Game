@@ -32,14 +32,6 @@ let lastBulletTime = 0;
 // add in frame counter to change star blink speed
 let frameCounter = 0;
 
-// Create first 3 asteroids
-for (let i = 0; i < 3; i++) {
-  const asteroid = createAsteroid(
-    canvas,
-    Math.min(canvas.width, canvas.height) * 0.1
-  );
-  asteroids.push(asteroid);
-}
 // instantiate the joystick
 const joystick = new Joystick(
   canvas.width * 0.75,
@@ -124,6 +116,14 @@ function checkCollision() {
   }
 }
 
+// Create first 3 asteroids
+for (let i = 0; i < 3; i++) {
+  const asteroid = createAsteroid(
+    canvas,
+    Math.min(canvas.width, canvas.height) * 0.1
+  );
+  asteroids.push(asteroid);
+}
 // RESIZE THE CANVAS DYNAMICALLY
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -135,6 +135,7 @@ function resizeCanvas() {
   ship.y = canvas.height / 2;
   asteroids.forEach((asteroid) => {
     asteroid.size = size * 1.5;
+    asteroid.update;
   });
 
   // update the joystick position
@@ -232,13 +233,14 @@ function gameLoop() {
       asteroid.update();
       asteroid.draw(ctx);
     });
-    checkCollision();
+    // checkCollision();
     document.getElementById(
       "hud"
     ).innerHTML = `Asteroids Destroyed: ${destroyed}  Collisions: ${collisions}`;
   } else {
     document.getElementById("hud").innerHTML = "<div>Press Space</div>";
   }
+  // joystick.draw(ctx);
   requestAnimationFrame(gameLoop);
 }
 

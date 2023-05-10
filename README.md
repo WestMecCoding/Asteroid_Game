@@ -1,5 +1,11 @@
 # ASTEROID GAME PROJECT
 
+## step-15 branch
+
+In this step we need to resize the asteroids and the joystick dynamically.
+
+We also need to get the joystick functionality working.
+
 ## step-14 branch
 
 We will add a speed wheel like a joystick that will take a mouse click to change the direction and velocity of the ship.
