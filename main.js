@@ -50,6 +50,14 @@ const keyStates = {
   " ": false,
 };
 
+// Define button properties
+const buttons = [
+  { label: "Forward", x: 20, y: 20, width: 80, height: 40 },
+  { label: "Clockwise", x: 20, y: 80, width: 100, height: 40 },
+  { label: "Counterclockwise", x: 20, y: 140, width: 150, height: 40 },
+  { label: "Backward", x: 20, y: 200, width: 100, height: 40 },
+];
+
 // EVENT LISTENERS for KEY PRESSES
 document.addEventListener("keydown", (event) => {
   if (keyStates.hasOwnProperty(event.key)) {
@@ -63,6 +71,63 @@ document.addEventListener("keyup", (event) => {
     keyStates[event.key] = false;
   }
 });
+
+document.addEventListener("touchstart", (event) => {
+  if (keyStates.hasOwnProperty(event.key)) {
+    event.preventDefault();
+    keyStates[event.key] = true;
+  }
+  const touch = event.touches[0];
+  const touchX = touch.clientX - canvas.offsetLeft;
+  const touchY = touch.clientY - canvas.offsetTop;
+  checkButtonActivation(touchX, touchY);
+});
+
+// Handle touch events
+// function handleTouch(event) {
+//   event.preventDefault();
+//   const touch = event.touches[0];
+//   const touchX = touch.clientX - canvas.offsetLeft;
+//   const touchY = touch.clientY - canvas.offsetTop;
+//   checkButtonActivation(touchX, touchY);
+// }
+
+// Check button activation based on touch or key press coordinates
+function checkButtonActivation(x, y) {
+  for (const button of buttons) {
+    if (
+      x >= button.x &&
+      x <= button.x + button.width &&
+      y >= button.y &&
+      y <= button.y + button.height
+    ) {
+      activateButtonAction(button.label);
+      break;
+    }
+  }
+}
+
+// Execute button action
+function activateButtonAction(label) {
+  switch (label) {
+    case "Forward":
+      // Perform forward action
+      console.log("Forward action activated");
+      break;
+    case "Clockwise":
+      // Perform clockwise action
+      console.log("Clockwise action activated");
+      break;
+    case "Counterclockwise":
+      // Perform counterclockwise action
+      console.log("Counterclockwise action activated");
+      break;
+    case "Backward":
+      // Perform backward action
+      console.log("Backward action activated");
+      break;
+  }
+}
 
 // add event listeners for canvas mouse events
 canvas.addEventListener("mousedown", (event) => {
@@ -147,6 +212,22 @@ function resizeCanvas() {
   }
 }
 
+// Draw buttons on the canvas
+function drawButtons() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.font = "20px Arial";
+  for (const button of buttons) {
+    ctx.fillStyle = "lightgray";
+    ctx.fillRect(button.x, button.y, button.width, button.height);
+    ctx.fillStyle = "black";
+    ctx.fillText(
+      button.label,
+      button.x + button.width / 2 - ctx.measureText(button.label).width / 2,
+      button.y + button.height / 2 + 7
+    );
+  }
+}
+
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
@@ -155,7 +236,7 @@ window.addEventListener("resize", resizeCanvas);
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+  drawButtons();
   for (const star of stars) {
     star.draw(ctx);
 
