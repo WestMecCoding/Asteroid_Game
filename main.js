@@ -52,10 +52,10 @@ const keyStates = {
 
 // Define button properties
 const buttons = [
-  { label: "Forward", x: 20, y: 20, width: 80, height: 40 },
-  { label: "Clockwise", x: 20, y: 80, width: 100, height: 40 },
-  { label: "Counterclockwise", x: 20, y: 140, width: 150, height: 40 },
-  { label: "Backward", x: 20, y: 200, width: 100, height: 40 },
+  { label: "^", x: 20, y: 20, width: 80, height: 40 },
+  { label: ">", x: 20, y: 80, width: 100, height: 40 },
+  { label: "<", x: 20, y: 140, width: 150, height: 40 },
+  { label: "v", x: 20, y: 200, width: 100, height: 40 },
 ];
 
 // EVENT LISTENERS for KEY PRESSES
@@ -72,16 +72,32 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
-document.addEventListener("touchstart", (event) => {
-  if (keyStates.hasOwnProperty(event.key)) {
+document.addEventListener(
+  "touchstart",
+  (event) => {
+    // if (keyStates.hasOwnProperty(event.key)) {
+    //   keyStates[event.key] = true;
+    // }
     event.preventDefault();
-    keyStates[event.key] = true;
-  }
-  const touch = event.touches[0];
-  const touchX = touch.clientX - canvas.offsetLeft;
-  const touchY = touch.clientY - canvas.offsetTop;
-  checkButtonActivation(touchX, touchY);
-});
+    const touch = event.touches[0];
+    const touchX = touch.clientX - canvas.offsetLeft;
+    const touchY = touch.clientY - canvas.offsetTop;
+    checkButtonActivation(touchX, touchY);
+  },
+  { passive: false }
+);
+
+document.addEventListener(
+  "touchend",
+  (event) => {
+    event.preventDefault();
+    // Reset all key states to false
+    Object.keys(keyStates).forEach((key) => {
+      keyStates[key] = false;
+    });
+  },
+  { passive: false }
+);
 
 // Handle touch events
 // function handleTouch(event) {
@@ -110,20 +126,24 @@ function checkButtonActivation(x, y) {
 // Execute button action
 function activateButtonAction(label) {
   switch (label) {
-    case "Forward":
+    case "^":
       // Perform forward action
+      keyStates["ArrowUp"] = true;
       console.log("Forward action activated");
       break;
-    case "Clockwise":
+    case ">":
       // Perform clockwise action
+      keyStates["ArrowRight"] = true;
       console.log("Clockwise action activated");
       break;
-    case "Counterclockwise":
+    case "<":
       // Perform counterclockwise action
+      keyStates["ArrowLeft"] = true;
       console.log("Counterclockwise action activated");
       break;
-    case "Backward":
+    case "v":
       // Perform backward action
+      keyStates["ArrowDown"] = true;
       console.log("Backward action activated");
       break;
   }
